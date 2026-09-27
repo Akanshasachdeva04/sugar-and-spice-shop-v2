@@ -1,0 +1,58 @@
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.filter-tabs button {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--charcoal);
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.filter-tabs button.active { background: var(--aubergine); color: #fff; border-color: var(--aubergine); }
+
+.order-row { cursor: pointer; }
+.order-row:hover { background: var(--cream); }
+.order-row select {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.order-detail-row td { background: var(--cream); padding: 16px 24px; }
+.order-detail { font-size: 13.5px; display: flex; flex-direction: column; gap: 6px; }
+.order-detail-items { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; color: #5c4a4c; }
+
+.tel-link { color: var(--rose-deep); font-weight: 600; }
+.filter-tabs { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-bottom: 2px; }
+.filter-tabs::-webkit-scrollbar { display: none; }
+.filter-tabs button { flex-shrink: 0; }
+
+/* phones: every order becomes a card instead of a squeezed table */
+@media (max-width: 760px) {
+  .orders-card { background: none; border: none; }
+  .orders-table, .orders-table tbody, .orders-table tr, .orders-table td { display: block; width: 100%; }
+  .orders-table thead { display: none; }
+  .orders-table tr.order-row {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px 10px 0 0;
+    margin-top: 12px; padding: 6px 14px;
+  }
+  .orders-table tr.order-row + tr.order-detail-row { margin-top: 0; }
+  .orders-table tr.order-row td {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 9px 0; border-bottom: 1px dashed var(--line); text-align: right;
+  }
+  .orders-table tr.order-row td:last-child { border-bottom: none; }
+  .orders-table tr.order-row td::before {
+    content: attr(data-label); font-size: 12px; text-transform: uppercase; letter-spacing: .03em;
+    color: #9c8f8c; font-weight: 600; text-align: left;
+  }
+  .order-row select { padding: 10px; font-size: 15px; min-width: 150px; }
+  .orders-table tr.order-detail-row { border: 1px solid var(--line); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; background: var(--cream); }
+  .order-detail-row td { padding: 14px; }
+}

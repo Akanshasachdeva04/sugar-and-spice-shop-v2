@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --aubergine: #2B2420;
+  --aubergine-deep: #1A1512;
+  --blush: #F4EFE6;
+  --rose: #A9895F;
+  --rose-deep: #8A6C41;
+  --cream: #FBF8F2;
+  --gold: #A9895F;
+  --charcoal: #2A2521;
+  --line: #E7DFD0;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  --container: 1240px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;   /* no 300ms tap delay / double-tap zoom on buttons */
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+  color: var(--aubergine);
+  letter-spacing: -0.01em;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--aubergine);
+  color: var(--cream);
+}
+.btn-primary:hover { background: var(--aubergine-deep); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--aubergine);
+  border: 1px solid var(--aubergine);
+}
+.btn-outline:hover { background: var(--aubergine); color: var(--cream); }
+
+.btn-rose {
+  background: var(--rose);
+  color: var(--cream);
+}
+.btn-rose:hover { background: var(--rose-deep); }
+
+.btn-pill {
+  background: var(--rose-deep);
+  color: #fff;
+  border-radius: 999px;
+  padding: 15px 30px;
+  text-transform: uppercase;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+}
+.btn-pill:hover { background: var(--aubergine); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 720px) {
+  .container { padding: 0 20px; }
+  .btn { padding: 14px 22px; min-height: 46px; }        /* comfortable thumb targets */
+  /* 16px inputs: iPhones zoom into anything smaller when you tap it */
+  input, select, textarea { font-size: 16px !important; }
+}
+
+/* room for the fixed SORT | FILTER bar on the shop page */
+body.has-bottombar .site-footer { padding-bottom: 60px; }

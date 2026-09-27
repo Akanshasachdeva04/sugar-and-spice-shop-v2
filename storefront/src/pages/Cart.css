@@ -1,0 +1,153 @@
+.cart-empty {
+  padding: 100px 32px;
+  text-align: center;
+}
+@media (max-width: 720px) { .cart-empty { padding: 64px 20px; } }
+.cart-empty h1 { margin-bottom: 10px; }
+.cart-empty p { color: #9c8f8c; margin-bottom: 28px; }
+
+.cart-page {
+  padding: 40px 32px 80px;
+}
+.cart-page h1 { font-size: 28px; margin-bottom: 32px; }
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 48px;
+  align-items: start;
+}
+
+.cart-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 125px;
+  background: var(--blush);
+  overflow: hidden;
+}
+.cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.cart-item-name { font-size: 15px; font-weight: 500; color: var(--aubergine); margin-bottom: 4px; }
+.cart-item-variant { font-size: 13px; color: #9c8f8c; margin-bottom: 8px; }
+.cart-item-price { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.qty-control button {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  color: var(--aubergine);
+}
+.qty-control button:disabled { opacity: 0.3; cursor: not-allowed; }
+.qty-control span { min-width: 28px; text-align: center; font-size: 14px; }
+
+.cart-remove {
+  font-size: 13px;
+  color: #b03a3a;
+  text-decoration: underline;
+}
+
+.cart-summary {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 24px;
+  position: sticky;
+  top: 100px;
+}
+.cart-summary h3 { font-size: 17px; margin-bottom: 18px; }
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 8px 0;
+  color: #5c4a4c;
+}
+
+.summary-total {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--aubergine);
+}
+
+.summary-cta {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.summary-note {
+  font-size: 12.5px;
+  color: var(--rose-deep);
+  text-align: center;
+  margin: 12px 0 0;
+}
+
+.ship-progress {
+  background: #fff; border: 1px solid var(--line); padding: 14px 18px; margin: -12px 0 28px;
+  font-size: 13.5px;
+}
+.ship-progress p { margin: 0 0 10px; color: #5c4a4c; }
+.ship-progress-done p { margin: 0; color: #2f8f4e; }
+.ship-progress-bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.ship-progress-bar span { display: block; height: 100%; background: var(--rose-deep); border-radius: 3px; transition: width .3s ease; }
+
+.cart-mobile-bar { display: none; }
+
+@media (max-width: 800px) {
+  .cart-page { padding: 20px 20px 120px; }
+  .cart-page h1 { font-size: 22px; margin-bottom: 16px; }
+  .ship-progress { margin: 0 0 8px; }
+  .cart-layout { grid-template-columns: 1fr; gap: 24px; }
+  .cart-item { grid-template-columns: 88px 1fr; gap: 14px; padding: 18px 0; }
+  .cart-item-image { width: 88px; height: 110px; }
+  .cart-item-name { font-size: 14.5px; }
+  .cart-item-price { margin-bottom: 10px; }
+  .cart-item-controls { gap: 16px; }
+  .qty-control button { width: 38px; height: 38px; font-size: 18px; }
+  .qty-control span { min-width: 30px; }
+  .cart-remove { padding: 10px 4px; }
+  .cart-summary { position: static; padding: 18px; }
+  .summary-cta { display: none; }              /* the bottom bar has the checkout button */
+
+  .cart-mobile-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: #fff; border-top: 1px solid var(--line);
+    box-shadow: 0 -4px 16px rgba(0,0,0,.08);
+    padding: 12px 20px max(12px, env(safe-area-inset-bottom));
+  }
+  .cart-mobile-bar div { display: flex; flex-direction: column; line-height: 1.2; }
+  .cart-mobile-bar span { font-size: 12px; color: #9c8f8c; }
+  .cart-mobile-bar strong { font-size: 19px; color: var(--aubergine); }
+  .cart-mobile-bar .btn { flex: 1; max-width: 220px; }
+}
+@media (min-width: 801px) and (max-width: 1000px) {
+  .cart-layout { grid-template-columns: 1fr 300px; gap: 28px; }
+}

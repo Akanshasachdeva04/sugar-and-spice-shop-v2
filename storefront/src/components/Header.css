@@ -1,0 +1,294 @@
+.announce-bar {
+  background: var(--aubergine);
+  color: var(--blush);
+  text-align: center;
+  font-size: 12.5px;
+  padding: 7px 24px;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.announce-arrow {
+  position: absolute;
+  left: 24px;
+  color: var(--blush);
+  opacity: 0.7;
+  font-size: 15px;
+}
+.announce-short { display: none; }
+.announce-region {
+  position: absolute;
+  right: 24px;
+  color: var(--blush);
+  opacity: 0.85;
+  font-size: 12px;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(46,26,36,0.04);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  margin-left: -8px;
+}
+.hamburger-btn span {
+  width: 20px;
+  height: 2px;
+  background: var(--aubergine);
+  border-radius: 2px;
+}
+
+.wordmark-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--aubergine);
+}
+
+.wordmark-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.main-nav a {
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--charcoal);
+}
+.main-nav a:hover {
+  border-bottom-color: var(--rose);
+  color: var(--rose-deep);
+}
+
+.main-nav a.nav-sale {
+  color: var(--rose-deep);
+}
+
+.search-form {
+  flex: 1;
+  max-width: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: #9c8f8c;
+  pointer-events: none;
+}
+
+.search-form input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--cream);
+  font-size: 13.5px;
+  font-family: var(--font-body);
+}
+.search-form input:focus {
+  outline: none;
+  border-color: var(--rose-deep);
+  background: #fff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--charcoal);
+}
+.icon-btn:hover { color: var(--rose-deep); }
+
+.icon-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.icon-count {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--rose-deep);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logout-link {
+  font-size: 11px;
+  color: #9c8f8c;
+  text-decoration: underline;
+}
+
+.mobile-search-row { display: none; }
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 60;
+}
+
+.mobile-menu {
+  background: #fff;
+  width: 280px;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu-head button { font-size: 18px; color: #9c8f8c; }
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-menu-nav a, .mobile-menu-nav button {
+  padding: 12px 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--charcoal);
+  text-align: left;
+  border-bottom: 1px solid var(--cream);
+}
+.mobile-menu-signout { color: var(--rose-deep); }
+
+@media (max-width: 1180px) {
+  .main-nav, .search-form { display: none; }
+  .hamburger-btn { display: flex; }
+  .header-row { gap: 10px; }
+  .icon-label { display: none; }
+  .header-actions { gap: 4px; margin-left: auto; }
+  .icon-btn { padding: 9px; }
+  .icon-count { top: 2px; right: 0; }
+  .account-menu .logout-link { display: none; }
+  .hamburger-btn { padding: 12px 10px; margin-left: -10px; }
+
+  .announce-bar { padding: 7px 14px; font-size: 11.5px; }
+  .announce-arrow, .announce-region { display: none; }
+  .announce-long { display: none; }
+  .announce-short { display: inline; }
+
+  /* Myntra-style: search bar always visible under the logo row.
+     The header wrapper disappears (display: contents) so the two rows become separate sticky bars.
+     Scrolling down tucks the search bar behind the logo bar; scrolling up brings it back.
+     The layout height never changes, so there is no jumpiness. */
+  .site-header { display: contents; }
+  .header-row {
+    position: sticky; top: 0; z-index: 41;
+    background: #fff;
+    height: 56px; padding-top: 0; padding-bottom: 0;
+  }
+  .site-header.search-hidden .header-row { border-bottom: 1px solid var(--line); box-shadow: 0 1px 2px rgba(46,26,36,0.06); }
+  .mobile-search-row {
+    display: block;
+    position: sticky; top: 56px; z-index: 40;
+    background: #fff;
+    height: 58px;
+    padding: 2px 20px 10px;
+    border-bottom: 1px solid var(--line);
+    transition: top .2s ease;
+  }
+  .site-header.search-hidden .mobile-search-row { top: -2px; }
+  .mobile-search-form { position: relative; display: flex; align-items: center; }
+  .mobile-search-form input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--cream);
+    font-size: 16px;            /* 16px stops iPhones zooming in on focus */
+    line-height: 1.2;
+    font-family: var(--font-body);
+  }
+  .mobile-search-form input:focus { outline: none; border-color: var(--rose-deep); background: #fff; }
+
+  .mobile-menu { width: min(86vw, 320px); overflow-y: auto; }
+  .mobile-menu-nav a, .mobile-menu-nav button { padding: 15px 4px; }
+}
+
+@media (min-width: 721px) and (max-width: 1180px) {
+  .mobile-search-row { padding-left: 32px; padding-right: 32px; }
+}
+
+@media (max-width: 420px) {
+  .wordmark { font-size: 20px; }
+  .wordmark-tag { display: none; }
+}

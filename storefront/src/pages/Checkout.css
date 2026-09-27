@@ -1,0 +1,104 @@
+.checkout-page {
+  padding: 40px 32px 100px;
+}
+.checkout-page h1 { font-size: 28px; margin-bottom: 32px; }
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 48px;
+  align-items: start;
+}
+
+.checkout-form h3 { font-size: 17px; margin-bottom: 20px; }
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.checkout-form input, .checkout-form textarea {
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  resize: vertical;
+}
+.checkout-form input:focus, .checkout-form textarea:focus {
+  outline: 2px solid var(--rose-deep);
+  outline-offset: 1px;
+}
+
+.checkout-error {
+  color: #b03a3a;
+  font-size: 13.5px;
+  margin: 0;
+  padding: 10px 14px;
+  background: #fbeaea;
+  border-radius: 2px;
+}
+
+.checkout-pay-btn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 15px;
+  font-size: 15px;
+}
+.checkout-pay-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.checkout-secure-note {
+  font-size: 12.5px;
+  color: #9c8f8c;
+  text-align: center;
+  margin: 4px 0 0;
+}
+
+.checkout-summary {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 24px;
+  position: sticky;
+  top: 100px;
+}
+.checkout-summary h3 { font-size: 17px; margin-bottom: 16px; }
+
+.checkout-items {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.checkout-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: #5c4a4c;
+}
+
+@media (max-width: 800px) {
+  .checkout-page { padding: 20px 20px 40px; }
+  .checkout-page h1 { font-size: 22px; margin-bottom: 18px; }
+  .checkout-layout { grid-template-columns: 1fr; gap: 24px; }
+  .checkout-summary { position: static; order: -1; padding: 18px; }
+  .checkout-form input, .checkout-form textarea { padding: 14px; }
+  /* the Pay button follows you down the form */
+  .checkout-pay-btn {
+    position: sticky; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 5;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  }
+}
