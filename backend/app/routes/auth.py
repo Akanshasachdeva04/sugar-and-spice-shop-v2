@@ -5,8 +5,8 @@ from app.core.database import get_db
 from app.core.security import hash_password, verify_password, create_access_token
 from app.core.deps import get_current_user
 from app.models.user import User
-from app.schemas.schemas import UserCreate, UserLogin, Token, UserOut, PasswordChange
-from app.routes.otp import consume_verified_phone
+from app.schemas.schemas import UserCreate, UserLogin, Token, UserOut, PasswordChange, ForgotPassword, ResetPassword
+from app.routes.otp import consume_verified_phone, send_otp_sms, check_otp
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -73,3 +73,25 @@ def change_password(payload: PasswordChange, db: Session = Depends(get_db), curr
     current_user.hashed_password = hash_password(payload.new_password)
     db.commit()
     return {"status": "password_changed"}
+
+
+@router.post("/forgot-password")
+def forgot_password(payload: ForgotPassword, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == payload.email.lower()).first()
+    if not user or user.is_admin or not user.phone:
+        raise HTTPException(status_code=404, detail="No account found with this email")
+    phone = send_otp_sms(user.phone, "reset")
+    return {"status": "otp_sent", "phone_hint": "******" + phone[-4:]}
+
+
+@router.post("/reset-password")
+def reset_password(payload: ResetPassword, db: Session = Depends(get_db)):
+    if len(payload.new_password) < 6:
+        raise HTTPException(status_code=400, detail="New password must be at least 6 characters")
+    user = db.query(User).filter(User.email == payload.email.lower()).first()
+    if not user or user.is_admin or not user.phone:
+        raise HTTPException(status_code=400, detail="Invalid request")
+    check_otp(user.phone, payload.otp, "reset")
+    user.hashed_password = hash_password(payload.new_password)
+    db.commit()
+    return {"status": "password_reset"}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import ProductCard from "../components/ProductCard";
@@ -12,8 +12,8 @@ import catBodysuit from "../assets/categories/cat_bodysuit.jpg";
 import catSwimsuit from "../assets/categories/cat_swimsuit.jpg";
 import catBikini from "../assets/categories/cat_bikini.jpg";
 import catSet from "../assets/categories/cat_set.jpg";
-import catGoodies from "../assets/categories/cat_goodies.jpg";
-import catAccessories from "../assets/categories/cat_accessories.jpg";
+import catGoodies from "../assets/categories/cat_goodies.png";
+import catAccessories from "../assets/categories/cat_accessories.png";
 import catClothes from "../assets/categories/cat_clothes.jpg";
 import catNewIn from "../assets/categories/cat_newin.jpg";
 import "./Home.css";
@@ -106,9 +106,9 @@ export default function Home() {
           <Link to="/shop" className="section-link">See all</Link>
         </div>
         {loading ? (
-          <div className="grid-loading">Loading products…</div>
+          <div className="grid-loading">Loading productsâ€¦</div>
         ) : products.length === 0 ? (
-          <div className="grid-empty">No products yet — check back soon.</div>
+          <div className="grid-empty">No products yet â€” check back soon.</div>
         ) : (
           <div className="product-grid">
             {products.map((p) => (

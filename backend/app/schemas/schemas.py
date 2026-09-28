@@ -164,3 +164,13 @@ class BannerCreate(BaseModel):
     image_url: str
     link_url: Optional[str] = None
     display_order: int = 0
+
+
+class ForgotPassword(BaseModel):
+    email: EmailStr
+
+
+class ResetPassword(BaseModel):
+    email: EmailStr
+    otp: str
+    new_password: str

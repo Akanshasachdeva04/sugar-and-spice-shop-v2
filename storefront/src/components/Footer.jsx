@@ -1,4 +1,4 @@
-import "./Footer.css";
+﻿import "./Footer.css";
 
 export default function Footer() {
   return (
@@ -25,6 +25,14 @@ export default function Footer() {
             <li>Track your order</li>
             <li>Contact us</li>
           </ul>
+          <ul className="footer-contact">
+            <li>
+              <a href="tel:+919990909239">+91 99909 09239</a>
+            </li>
+            <li>
+              <a href="mailto:Meiinukk@gmail.com">Meiinukk@gmail.com</a>
+            </li>
+          </ul>
         </div>
         <div>
           <h4>Get updates</h4>
@@ -36,7 +44,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom container">
-        <span>© {new Date().getFullYear()} Sugar & Spice. All rights reserved.</span>
+        <span>&copy; {new Date().getFullYear()} Sugar &amp; Spice. All rights reserved.</span>
       </div>
     </footer>
   );

@@ -36,6 +36,9 @@ export const api = {
   sendOtp: (phone, purpose) => request("/auth/otp/send", { method: "POST", body: JSON.stringify({ phone, purpose }) }),
   verifyOtp: (phone, otp, purpose) => request("/auth/otp/verify", { method: "POST", body: JSON.stringify({ phone, otp, purpose }) }),
 
+  forgotPassword: (email) => request("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
+  resetPassword: (email, otp, new_password) => request("/auth/reset-password", { method: "POST", body: JSON.stringify({ email, otp, new_password }) }),
+
   // orders
   createOrder: (payload) => request("/orders", { method: "POST", body: JSON.stringify(payload) }),
   getMyOrders: () => request("/orders"),
