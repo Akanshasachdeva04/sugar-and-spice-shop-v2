@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+﻿const API_BASE = import.meta.env.VITE_API_URL || "https://sugar-and-spice-shop.onrender.com";
 
 async function request(path, options = {}) {
   const token = localStorage.getItem("admin_token");
