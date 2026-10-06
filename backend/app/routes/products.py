@@ -1,3 +1,4 @@
+import re
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session, joinedload
 import math
@@ -30,6 +31,18 @@ SORT_OPTIONS = {
     "name_asc": asc(Product.name),
 }
 SORT_PATTERN = "^(" + "|".join(SORT_OPTIONS.keys()) + ")$"
+
+_CODE_RE = re.compile(r"^[A-Za-z]{1,4}-?0*(\d{1,7})$")
+
+
+def _code_search_id(search: str) -> Optional[int]:
+    """If `search` looks like a product code (e.g. BRA-00123), return the numeric
+    id it encodes so callers can match it exactly — product_code isn't a real
+    DB column (it's derived from category + id), so it can't be ILIKE'd."""
+    m = _CODE_RE.match(search.strip())
+    return int(m.group(1)) if m else None
+
+
 
 
 def _csv(value: Optional[str]) -> list[str]:
@@ -124,7 +137,11 @@ def get_filters(
     ).filter(Product.is_active == True)
     if search:
         like = f"%{search}%"
-        q = q.filter(or_(Product.name.ilike(like), Product.brand.ilike(like), Product.description.ilike(like)))
+        code_id = _code_search_id(search)
+        conds = [Product.name.ilike(like), Product.brand.ilike(like), Product.description.ilike(like)]
+        if code_id is not None:
+            conds.append(Product.id == code_id)
+        q = q.filter(or_(*conds))
     products = q.all()
 
     f = {
@@ -236,7 +253,11 @@ def list_products(
         q = q.join(Category).filter(func.lower(Category.slug).in_(cat_list))
     if search:
         like = f"%{search}%"
-        q = q.filter(or_(Product.name.ilike(like), Product.brand.ilike(like), Product.description.ilike(like)))
+        code_id = _code_search_id(search)
+        conds = [Product.name.ilike(like), Product.brand.ilike(like), Product.description.ilike(like)]
+        if code_id is not None:
+            conds.append(Product.id == code_id)
+        q = q.filter(or_(*conds))
     brand_list = [b.lower() for b in _csv(brand)]
     if brand_list:
         q = q.filter(func.lower(Product.brand).in_(brand_list))

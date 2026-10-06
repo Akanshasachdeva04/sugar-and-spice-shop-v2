@@ -21,6 +21,16 @@ class PasswordChange(BaseModel):
     new_password: str
 
 
+class ForgotPassword(BaseModel):
+    email: EmailStr
+
+
+class ResetPassword(BaseModel):
+    email: EmailStr
+    otp: str
+    new_password: str
+
+
 class UserOut(BaseModel):
     id: int
     name: str
@@ -90,6 +100,7 @@ class ProductCreate(BaseModel):
 
 class ProductOut(BaseModel):
     id: int
+    product_code: str
     name: str
     slug: str
     description: Optional[str]
@@ -164,13 +175,3 @@ class BannerCreate(BaseModel):
     image_url: str
     link_url: Optional[str] = None
     display_order: int = 0
-
-
-class ForgotPassword(BaseModel):
-    email: EmailStr
-
-
-class ResetPassword(BaseModel):
-    email: EmailStr
-    otp: str
-    new_password: str

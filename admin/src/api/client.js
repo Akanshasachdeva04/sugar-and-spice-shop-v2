@@ -33,6 +33,8 @@ export const api = {
   createProduct: (payload) => request("/admin/products", { method: "POST", body: JSON.stringify(payload) }),
   updateProduct: (id, payload) => request(`/admin/products/${id}`, { method: "PUT", body: JSON.stringify(payload) }),
   deleteProduct: (id) => request(`/admin/products/${id}`, { method: "DELETE" }),
+  setProductActive: (id, active) => request(`/admin/products/${id}/active?active=${active}`, { method: "PATCH" }),
+  deleteProductPermanently: (id) => request(`/admin/products/${id}/permanent`, { method: "DELETE" }),
   updateStock: (productId, variantId, stock) =>
     request(`/admin/products/${productId}/stock/${variantId}?stock=${stock}`, { method: "PATCH" }),
   uploadImage: (file) => {

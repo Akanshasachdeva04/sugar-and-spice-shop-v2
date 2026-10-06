@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import ProductForm from "./ProductForm";
 import "./Products.css";
@@ -30,14 +31,29 @@ export default function Products() {
   const visibleProducts = search.trim()
     ? products.filter((p) => {
         const q = search.trim().toLowerCase();
-        return p.name?.toLowerCase().includes(q) || (p.brand || "").toLowerCase().includes(q);
+        return p.name?.toLowerCase().includes(q) || (p.brand || "").toLowerCase().includes(q) || p.product_code?.toLowerCase().includes(q);
       })
     : products;
 
   async function handleDelete(product) {
-    if (!window.confirm(`Remove "${product.name}" from the store? It will no longer be visible to customers.`)) return;
+    if (!window.confirm(`Remove "${product.name}" from the store? It will no longer be visible to customers. You can restore it later.`)) return;
     await api.deleteProduct(product.id);
     load();
+  }
+
+  async function handleRestore(product) {
+    await api.setProductActive(product.id, true);
+    load();
+  }
+
+  async function handlePermanentDelete(product) {
+    if (!window.confirm(`Permanently delete "${product.name}"? This cannot be undone — its photos will also be removed.`)) return;
+    try {
+      await api.deleteProductPermanently(product.id);
+      load();
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   async function handleCreateCategory(e) {
@@ -57,7 +73,8 @@ export default function Products() {
           <h1>Products</h1>
           <p>Add new products, update stock, or remove items that are no longer sold.</p>
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <Link to="/products/bulk-upload" className="btn btn-outline">Bulk upload</Link>
           <button className="btn btn-outline" onClick={() => setShowCategoryForm(true)}>+ New category</button>
           <button
             className="btn btn-primary"
@@ -70,7 +87,7 @@ export default function Products() {
 
       <input
         type="text"
-        placeholder="Search products by name or brand…"
+        placeholder="Search products by name, brand, or product code…"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ margin: "0 0 16px", padding: "8px 12px", width: "100%", maxWidth: 320, borderRadius: 8, border: "1px solid #ddd" }}
@@ -89,6 +106,7 @@ export default function Products() {
           <table>
             <thead>
               <tr>
+                <th>Code</th>
                 <th>Product</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -103,6 +121,7 @@ export default function Products() {
                 const thumb = p.images?.[0]?.image_url;
                 return (
                   <tr key={p.id}>
+                    <td data-label="Product code" className="product-id-cell">{p.product_code}</td>
                     <td data-label="Product">
                       <div className="product-cell">
                         <div className="product-thumb">
@@ -130,7 +149,14 @@ export default function Products() {
                     <td data-label="">
                       <div className="row-actions">
                         <button className="btn btn-outline btn-sm" onClick={() => setEditing(p)}>Edit</button>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p)}>Remove</button>
+                        {p.is_active ? (
+                          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p)}>Remove</button>
+                        ) : (
+                          <>
+                            <button className="btn btn-outline btn-sm" onClick={() => handleRestore(p)}>Restore</button>
+                            <button className="btn btn-danger btn-sm" onClick={() => handlePermanentDelete(p)}>Delete permanently</button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>

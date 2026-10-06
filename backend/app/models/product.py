@@ -33,6 +33,15 @@ class Product(Base):
     images = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
     variants = relationship("ProductVariant", back_populates="product", cascade="all, delete-orphan")
 
+    @property
+    def product_code(self) -> str:
+        """Human-readable code shown to the admin/customer, e.g. BRA-00123.
+        Derived from the category name + id — never stored, so it needs no
+        database migration and always matches the current category."""
+        source = self.category.name if self.category else "PRD"
+        prefix = "".join(ch for ch in source if ch.isalnum()).upper()[:3] or "PRD"
+        return f"{prefix}-{self.id:05d}"
+
 
 class ProductImage(Base):
     __tablename__ = "product_images"

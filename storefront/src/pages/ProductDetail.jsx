@@ -135,6 +135,7 @@ export default function ProductDetail() {
         {product.category && <Link to={`/shop?category_slug=${product.category.slug}`} className="pd-category">{product.category.name}</Link>}
         {product.brand && <div className="pd-brand">{product.brand}</div>}
         <h1>{product.name}</h1>
+        <div className="pd-product-id">Product code: {product.product_code}</div>
 
         <div className="pd-price">
           <span className="price-now">₹{Math.round(product.discount_price || product.price)}</span>

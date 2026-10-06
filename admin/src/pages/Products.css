@@ -22,3 +22,9 @@
 .row-actions { display: flex; gap: 8px; }
 
 .modal-card-small { max-width: 380px; }
+
+.product-id-cell {
+  color: #8a8a8a;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

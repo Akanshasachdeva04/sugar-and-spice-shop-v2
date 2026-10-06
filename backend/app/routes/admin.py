@@ -164,9 +164,42 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    product.is_active = False  # soft delete keeps order history intact
+    product.is_active = False  # soft delete (hides from storefront) keeps order history intact
     db.commit()
     return {"status": "deactivated"}
+
+
+@router.patch("/products/{product_id}/active")
+def set_product_active(product_id: int, active: bool, db: Session = Depends(get_db)):
+    """Restore a hidden product back to the live storefront."""
+    product = db.query(Product).filter(Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    product.is_active = active
+    db.commit()
+    return {"status": "updated", "is_active": product.is_active}
+
+
+@router.delete("/products/{product_id}/permanent")
+def delete_product_permanently(product_id: int, db: Session = Depends(get_db)):
+    """Fully erase a product (and its photos) — cannot be undone.
+    Blocked if the product appears in any past order, so order history / invoices stay intact;
+    hide it (soft delete) instead in that case."""
+    product = db.query(Product).filter(Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    from app.models.order import OrderItem
+    if db.query(OrderItem).filter(OrderItem.product_id == product.id).first():
+        raise HTTPException(
+            status_code=400,
+            detail="This product has past orders and can't be permanently deleted. Use 'Remove' to hide it instead.",
+        )
+    image_urls = [img.image_url for img in product.images]
+    db.delete(product)
+    db.commit()
+    for url in image_urls:
+        _delete_upload_file(url)
+    return {"status": "deleted_permanently"}
 
 
 @router.patch("/products/{product_id}/stock/{variant_id}")
