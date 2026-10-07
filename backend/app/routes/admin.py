@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request
+﻿from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func
 from typing import Optional
@@ -128,6 +128,8 @@ def create_product(payload: ProductCreate, db: Session = Depends(get_db)):
 
 @router.put("/products/{product_id}", response_model=ProductOut)
 def update_product(product_id: int, payload: ProductCreate, db: Session = Depends(get_db)):
+    from app.models.order import OrderItem
+
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -140,24 +142,41 @@ def update_product(product_id: int, payload: ProductCreate, db: Session = Depend
     product.category_id = payload.category_id
     product.brand = payload.brand
 
-    # replace images/variants wholesale for simplicity (non-tech admin edits from scratch)
     old_images = db.query(ProductImage).filter(ProductImage.product_id == product.id).all()
     old_urls = {img.image_url for img in old_images}
     new_urls = set(payload.image_urls)
     for url in old_urls - new_urls:
-        _delete_upload_file(url)  # only files that are actually being dropped
+        _delete_upload_file(url)
 
     db.query(ProductImage).filter(ProductImage.product_id == product.id).delete()
-    db.query(ProductVariant).filter(ProductVariant.product_id == product.id).delete()
     for idx, url in enumerate(payload.image_urls):
         db.add(ProductImage(product_id=product.id, image_url=url, is_primary=(idx == 0)))
+
+    # variants: update in place (old orders point at these rows, so never delete them blindly)
+    existing = {
+        (v.size, v.color or None): v
+        for v in db.query(ProductVariant).filter(ProductVariant.product_id == product.id).all()
+    }
+    wanted = set()
     for v in payload.variants:
-        db.add(ProductVariant(product_id=product.id, **v.model_dump()))
+        data = v.model_dump()
+        key = (data["size"], data.get("color") or None)
+        wanted.add(key)
+        if key in existing:
+            existing[key].stock = data["stock"]
+        else:
+            db.add(ProductVariant(product_id=product.id, **data))
+    for key, variant in existing.items():
+        if key not in wanted:
+            used = db.query(OrderItem).filter(OrderItem.variant_id == variant.id).first()
+            if used:
+                variant.stock = 0
+            else:
+                db.delete(variant)
 
     db.commit()
     db.refresh(product)
     return product
-
 
 @router.delete("/products/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
@@ -286,7 +305,7 @@ def export_orders_csv(status: Optional[str] = None, db: Session = Depends(get_db
     writer = csv.writer(buffer)
     writer.writerow(["Order ID", "Date", "Status", "Amount (INR)", "Phone", "Shipping Address", "Items", "Razorpay Order ID"])
     for o in orders:
-        items_summary = "; ".join(f"{i.product_name} x{i.quantity}" for i in o.items)
+        items_summary = "; ".join(f"{i.product_name} [{i.product_code}] x{i.quantity}" for i in o.items)
         writer.writerow([
             o.id, o.created_at.strftime("%Y-%m-%d %H:%M"), o.status, o.total_amount,
             o.phone, o.shipping_address, items_summary, o.razorpay_order_id or "",

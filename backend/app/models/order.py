@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text
+﻿from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
@@ -32,6 +32,22 @@ class OrderItem(Base):
     price = Column(Float, nullable=False)
 
     order = relationship("Order", back_populates="items")
+    product = relationship("Product")
+    variant = relationship("ProductVariant")
+
+    @property
+    def product_code(self):
+        return self.product.product_code if self.product else None
+
+    @property
+    def size(self):
+        return self.variant.size if self.variant else None
+
+    @property
+    def image_url(self):
+        if self.product and self.product.images:
+            return self.product.images[0].image_url
+        return None
 
 
 class Payment(Base):

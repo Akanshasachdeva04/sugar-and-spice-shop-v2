@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+﻿import { Fragment, useEffect, useState } from "react";
 import { api } from "../api/client";
 import "./Orders.css";
 
@@ -97,6 +97,7 @@ export default function Orders() {
             <thead>
               <tr>
                 <th>Order</th>
+                <th>Items</th>
                 <th>Date</th>
                 <th>Total</th>
                 <th>Status</th>
@@ -108,6 +109,20 @@ export default function Orders() {
                 <Fragment key={order.id}>
                   <tr className="order-row" onClick={() => setExpanded(expanded === order.id ? null : order.id)}>
                     <td data-label="Order">#{order.id}</td>
+                    <td data-label="Items">
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                        {order.items.slice(0, 3).map((item) => (
+                          <div key={item.id} style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                            {item.image_url && <img src={item.image_url} alt="" style={{ width: 36, height: 44, objectFit: "cover", borderRadius: 4 }} />}
+                            <div style={{ fontSize: 12, lineHeight: 1.3 }}>
+                              <strong>{item.product_code || "-"}</strong>
+                              <div>{[item.size, "x" + item.quantity].filter(Boolean).join(" ")}</div>
+                            </div>
+                          </div>
+                        ))}
+                        {order.items.length > 3 && <span className="muted">+{order.items.length - 3} more</span>}
+                      </div>
+                    </td>
                     <td data-label="Date">{new Date(order.created_at).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" })}</td>
                     <td data-label="Total">₹{Math.round(order.total_amount)}</td>
                     <td data-label="Status"><span className={`badge badge-${order.status}`}>{LABELS[order.status] || order.status}</span></td>
@@ -121,13 +136,20 @@ export default function Orders() {
                   </tr>
                   {expanded === order.id && (
                     <tr className="order-detail-row">
-                      <td colSpan={5}>
+                      <td colSpan={6}>
                         <div className="order-detail">
                           <div><strong>Delivery address:</strong> {order.shipping_address}</div>
                           <div><strong>Phone:</strong> <a className="tel-link" href={`tel:${order.phone}`}>{order.phone}</a></div>
                           <div className="order-detail-items">
                             {order.items.map((item) => (
-                              <div key={item.id}>{item.product_name} × {item.quantity} — ₹{Math.round(item.price * item.quantity)}</div>
+                              <div key={item.id} style={{ display: "flex", gap: 10, alignItems: "center", margin: "8px 0" }}>
+                                {item.image_url && <img src={item.image_url} alt="" style={{ width: 56, height: 70, objectFit: "cover", borderRadius: 6 }} />}
+                                <div>
+                                  <div><strong>{item.product_name}</strong></div>
+                                  <div>Code: {item.product_code || "-"}{item.size ? " | Size: " + item.size : ""}</div>
+                                  <div>Qty: {item.quantity} | {"\u20B9"}{Math.round(item.price * item.quantity)}</div>
+                                </div>
+                              </div>
                             ))}
                           </div>
                         </div>

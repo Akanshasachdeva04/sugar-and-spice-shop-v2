@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+﻿from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 from datetime import datetime
 
@@ -140,6 +140,9 @@ class OrderCreate(BaseModel):
 class OrderItemOut(BaseModel):
     id: int
     product_name: str
+    product_code: Optional[str] = None
+    size: Optional[str] = None
+    image_url: Optional[str] = None
     quantity: int
     price: float
 
