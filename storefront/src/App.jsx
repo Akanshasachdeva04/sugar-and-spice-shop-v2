@@ -1,4 +1,5 @@
 ﻿import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -14,7 +15,7 @@ import Wishlist from "./pages/Wishlist";
 export default function App() {
   return (
     <>
-      <Header />
+      <ScrollToTop /><Header />
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -44,3 +45,4 @@ export default function App() {
     </>
   );
 }
+

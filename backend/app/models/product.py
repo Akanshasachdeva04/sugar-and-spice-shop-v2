@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text, Boolean, DateTime
+﻿from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
@@ -30,13 +30,13 @@ class Product(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     category = relationship("Category", back_populates="products")
-    images = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
-    variants = relationship("ProductVariant", back_populates="product", cascade="all, delete-orphan")
+    images = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan", order_by="ProductImage.id")
+    variants = relationship("ProductVariant", back_populates="product", cascade="all, delete-orphan", order_by="ProductVariant.id")
 
     @property
     def product_code(self) -> str:
         """Human-readable code shown to the admin/customer, e.g. BRA-00123.
-        Derived from the category name + id — never stored, so it needs no
+        Derived from the category name + id â€” never stored, so it needs no
         database migration and always matches the current category."""
         source = self.category.name if self.category else "PRD"
         prefix = "".join(ch for ch in source if ch.isalnum()).upper()[:3] or "PRD"
