@@ -1,4 +1,4 @@
-import os
+﻿import os
 import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -58,6 +58,17 @@ else:
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5174",
     ]
+
+@app.middleware("http")
+async def _catch_server_errors(request, call_next):
+    """Turn a crash into a normal JSON error (CORS headers still sent) so the admin shows the real reason."""
+    from fastapi.responses import JSONResponse
+    try:
+        return await call_next(request)
+    except Exception as exc:  # noqa: BLE001
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={"detail": f"Server error ({type(exc).__name__}): {str(exc)[:300]}"})
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import ProductForm from "./ProductForm";
@@ -37,12 +37,12 @@ export default function Products() {
 
   async function handleDelete(product) {
     if (!window.confirm(`Remove "${product.name}" from the store? It will no longer be visible to customers. You can restore it later.`)) return;
-    await api.deleteProduct(product.id);
+    try { await api.deleteProduct(product.id); } catch (err) { alert(err.message); return; }
     load();
   }
 
   async function handleRestore(product) {
-    await api.setProductActive(product.id, true);
+    try { await api.setProductActive(product.id, true); } catch (err) { alert(err.message); return; }
     load();
   }
 
