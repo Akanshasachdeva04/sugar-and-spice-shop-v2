@@ -1,4 +1,4 @@
-﻿const API_BASE = import.meta.env.VITE_API_URL || "https://sugar-and-spice-shop-v2.onrender.com";
+﻿import { optimizeImages } from "../lib/optimizeImages"; const API_BASE = import.meta.env.VITE_API_URL || "https://sugar-and-spice-shop-v2.onrender.com";
 
 async function request(path, options = {}) {
   const token = localStorage.getItem("token");
@@ -11,7 +11,7 @@ async function request(path, options = {}) {
   if (!res.ok) {
     throw new Error(data.detail || "Something went wrong. Please try again.");
   }
-  return data;
+  return optimizeImages(data);
 }
 
 export const api = {

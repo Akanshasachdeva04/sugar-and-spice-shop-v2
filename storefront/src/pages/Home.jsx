@@ -1,8 +1,8 @@
 ﻿import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 import ProductCard from "../components/ProductCard";
-import Seo from "../components/Seo";
+import Seo from "../components/Seo"; import HeroVideo from "../components/HeroVideo";
 import heroPhoto from "../assets/hero-photo.jpg";
 import catBra from "../assets/categories/cat_bra.jpg";
 import catNightwear from "../assets/categories/cat_nightwear.jpg";
@@ -12,13 +12,13 @@ import catBodysuit from "../assets/categories/cat_bodysuit.jpg";
 import catSwimsuit from "../assets/categories/cat_swimsuit.jpg";
 import catBikini from "../assets/categories/cat_bikini.jpg";
 import catSet from "../assets/categories/cat_set.jpg";
-import catGoodies from "../assets/categories/cat_goodies.png";
-import catAccessories from "../assets/categories/cat_accessories.png";
+import catGoodies from "../assets/categories/cat_goodies.jpg";
+import catAccessories from "../assets/categories/cat_accessories.jpg";
 import catClothes from "../assets/categories/cat_clothes.jpg";
 import catNewIn from "../assets/categories/cat_newin.jpg";
 import "./Home.css";
 
-export default function Home() {
+export default function Home() { const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -75,7 +75,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image" aria-hidden="true">
-            <img src={heroPhoto} alt="Woman in lingerie and robe reading a book" />
+            <HeroVideo src="/hero.mp4" poster="/hero-poster.jpg" label="Sugar & Spice collection" />
           </div>
         </div>
       </section>
@@ -87,7 +87,7 @@ export default function Home() {
           {CATEGORIES.map((c) => (
             <Link key={c.label} to={c.to} className="category-card">
               <div className="category-card-img">
-                <img src={c.img} alt={c.label} />
+                <img src={c.img} alt={c.label} loading="lazy" decoding="async" />
               </div>
               <div className="category-card-label">
                 <span>{c.label}</span>
@@ -118,7 +118,7 @@ export default function Home() {
         )}
       </section>
 
-      <button className="help-bubble" type="button">
+      <button className="help-bubble" type="button" onClick={() => navigate("/contact")}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
         </svg>

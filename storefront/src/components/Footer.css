@@ -102,3 +102,4 @@
 .footer-contact a:hover {
   text-decoration: underline;
 }
+.footer-grid li a { transition: color .15s; } .footer-grid li a:hover { color: var(--cream); }

@@ -10,7 +10,7 @@ import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import Orders from "./pages/Orders";
 import Auth from "./pages/Auth";
-import Wishlist from "./pages/Wishlist";
+import Wishlist from "./pages/Wishlist"; import SizeGuide from "./pages/SizeGuide"; import ShippingReturns from "./pages/ShippingReturns"; import Contact from "./pages/Contact";
 
 export default function App() {
   return (
@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success/:orderId" element={<OrderSuccess />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/login" element={<Auth />} />
+          <Route path="/login" element={<Auth />} /> <Route path="/size-guide" element={<SizeGuide />} /> <Route path="/shipping-returns" element={<ShippingReturns />} /> <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
       <Footer />
