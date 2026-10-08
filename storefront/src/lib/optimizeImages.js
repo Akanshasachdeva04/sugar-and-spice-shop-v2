@@ -1,7 +1,7 @@
-// Product photos are uploaded to Cloudinary at their full size (often 2-5 MB).
+﻿// Product photos are uploaded to Cloudinary at their full size (often 2-5 MB).
 // This asks Cloudinary for a smaller, modern-format copy (webp/avif) instead,
 // which makes pages load many times faster. Other URLs are left untouched.
-const TRANSFORM = "f_auto,q_auto,c_limit,w_800";
+const TRANSFORM = "f_auto,q_auto:best,dpr_auto,c_limit,w_1600";
 
 function optimizeUrl(url) {
   if (typeof url !== "string") return url;
